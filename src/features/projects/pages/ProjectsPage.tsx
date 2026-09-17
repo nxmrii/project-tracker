@@ -1,11 +1,26 @@
-import AppShell from "../../../components/layout/AppShell"
+import { useState } from "react"
 
-import ProjectCard from "../components/ProjectCard"
+import AppShell
+  from "../../../components/layout/AppShell"
 
-import { useProjects } from "../hooks/useProjects"
+import ProjectCard
+  from "../components/ProjectCard"
+
+import CreateProjectForm
+  from "../components/CreateProjectForm"
+
+import {
+  useCreateProject,
+  useDeleteProject,
+  useProjects,
+} from "../hooks/useProjects"
 
 
 function ProjectsPage() {
+
+  const [showCreateForm, setShowCreateForm] =
+    useState(false)
+
 
   const {
     data: projects,
@@ -14,20 +29,35 @@ function ProjectsPage() {
   } = useProjects()
 
 
+  const createProject =
+    useCreateProject()
+
+  const deleteProject =
+    useDeleteProject()
+
+
   return (
     <AppShell>
 
       <div className="projects-header">
 
         <div>
+
           <h2>All Projects</h2>
 
           <p>
             View and manage all your team projects.
           </p>
+
         </div>
 
-        <button className="primary-button">
+
+        <button
+          className="primary-button"
+          onClick={() =>
+            setShowCreateForm(true)
+          }
+        >
           + New Project
         </button>
 
@@ -57,6 +87,15 @@ function ProjectsPage() {
             <ProjectCard
               key={project.id}
               project={project}
+
+              deleting={
+                deleteProject.isPending &&
+                deleteProject.variables === project.id
+              }
+
+              onDelete={(projectId) =>
+                deleteProject.mutate(projectId)
+              }
             />
 
           ))}
@@ -82,6 +121,36 @@ function ProjectsPage() {
           </p>
 
         </div>
+
+      )}
+
+
+      {showCreateForm && (
+
+        <CreateProjectForm
+
+          loading={
+            createProject.isPending
+          }
+
+          onCancel={() =>
+            setShowCreateForm(false)
+          }
+
+          onSubmit={(data) => {
+
+            createProject.mutate(
+              data,
+              {
+                onSuccess: () => {
+                  setShowCreateForm(false)
+                },
+              }
+            )
+
+          }}
+
+        />
 
       )}
 

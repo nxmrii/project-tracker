@@ -7,9 +7,19 @@ import {
 
 type Props = {
   project: Project
+
+  deleting: boolean
+
+  onDelete: (
+    projectId: number
+  ) => void
 }
 
-function ProjectCard({ project }: Props) {
+function ProjectCard({
+  project,
+  deleting,
+  onDelete,
+}: Props) {
   const progress = calculateProgress(project)
   const overdue = isProjectOverdue(project)
 
@@ -76,6 +86,28 @@ function ProjectCard({ project }: Props) {
         </div>
 
       </div>
+
+      <button
+  className="delete-project-button"
+  type="button"
+  disabled={deleting}
+  onClick={() => {
+
+    const confirmed =
+      window.confirm(
+        `Are you sure you want to delete "${project.name}"?`
+      )
+
+    if (confirmed) {
+      onDelete(project.id)
+    }
+
+  }}
+>
+  {deleting
+    ? "Deleting..."
+    : "Delete Project"}
+</button>
 
       <button className="view-project-button">
         View Project →
