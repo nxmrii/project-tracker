@@ -9,11 +9,15 @@ import { rootRoute } from "./root"
 import { loginRoute }
   from "./public.routes"
 
-import { projectsRoute }
-  from "./protected.routes"
+import {
+  projectsRoute,
+  projectDetailsRoute,
+} from "./protected.routes"
 
 import { hasAuthToken }
   from "../features/auth/api/auth.api"
+
+  
 
 
 const indexRoute = createRoute({
@@ -40,6 +44,7 @@ const routeTree = rootRoute.addChildren([
   indexRoute,
   loginRoute,
   projectsRoute,
+  projectDetailsRoute,
 ])
 
 

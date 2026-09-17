@@ -5,6 +5,8 @@ import {
   isProjectOverdue,
 } from "../../../utils/project.utils"
 
+import { Link } from "@tanstack/react-router"
+
 type Props = {
   project: Project
 
@@ -109,9 +111,15 @@ function ProjectCard({
     : "Delete Project"}
 </button>
 
-      <button className="view-project-button">
-        View Project →
-      </button>
+     <Link
+  to="/projects/$projectId"
+  params={{
+    projectId: String(project.id),
+  }}
+  className="view-project-button"
+>
+  View Project →
+</Link>
 
     </article>
   )

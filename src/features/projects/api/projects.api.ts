@@ -61,3 +61,20 @@ export async function deleteProjectApi(
 
   projects.splice(index, 1)
 }
+
+export async function getProjectByIdApi(
+  projectId: number
+): Promise<Project> {
+
+  await delay()
+
+  const project = projects.find(
+    (project) => project.id === projectId
+  )
+
+  if (!project) {
+    throw new Error("Project not found")
+  }
+
+  return project
+}

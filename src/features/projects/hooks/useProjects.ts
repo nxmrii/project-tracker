@@ -8,6 +8,7 @@ import {
   createProjectApi,
   deleteProjectApi,
   getProjectsApi,
+  getProjectByIdApi,
 } from "../api/projects.api"
 
 
@@ -58,6 +59,21 @@ export function useDeleteProject() {
 
     },
 
+  })
+
+}
+
+export function useProject(
+  projectId: number
+) {
+
+  return useQuery({
+    queryKey: ["projects", projectId],
+
+    queryFn: () =>
+      getProjectByIdApi(projectId),
+
+    enabled: !Number.isNaN(projectId),
   })
 
 }

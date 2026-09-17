@@ -3,7 +3,8 @@ import {
   redirect,
 } from "@tanstack/react-router"
 
-
+import ProjectDetailsPage
+  from "../features/projects/pages/ProjectDetailsPage"
 
 import ProjectsPage
   from "../features/projects/pages/ProjectsPage"
@@ -32,3 +33,26 @@ export const projectsRoute = createRoute({
 
   component: ProjectsPage,
 })
+
+
+export const projectDetailsRoute =
+  createRoute({
+
+    getParentRoute: () => rootRoute,
+
+    path: "/projects/$projectId",
+
+    beforeLoad: () => {
+
+      if (!hasAuthToken()) {
+
+        throw redirect({
+          to: "/login",
+        })
+
+      }
+
+    },
+
+    component: ProjectDetailsPage,
+  })
