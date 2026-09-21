@@ -1,35 +1,81 @@
-# React + TypeScript + Vite
+# Project Tracking System
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A simple project tracking system built with React and TypeScript.
 
-Currently, two official plugins are available:
+The application simulates project management for a work team. Users can manage projects, team members, tasks, task assignments, deadlines, and project progress.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+All application data is mock data and no real backend is connected.
 
-## React Compiler
+## Features
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+### Authentication
 
-Note: This will impact Vite dev & build performances.
-You can also try [the experimental native React Compiler support in plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md#rust-react-compiler) by using `compiler: true` in the plugin options instead of using the Babel plugin.
+- Login using Civil ID
+- Mock OTP verification
+- Fake authentication token stored in localStorage
+- Protected project routes
+- Logout functionality
 
-## Expanding the Oxlint configuration
+### Project Management
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+- View all projects
+- Create a project
+- Delete a project
+- View project details
+- Track project deadline
+- Display overdue projects
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
+### Member Management
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+- Add members to a project
+- Store member name and role
+- Display assigned task count
+- Display completed task count
+
+### Task Management
+
+- Add tasks
+- Assign tasks to project members
+- Set task due date
+- Change task status
+- Supported statuses:
+  - Todo
+  - In Progress
+  - Done
+- Display overdue unfinished tasks
+
+### Progress Tracking
+
+Project progress is calculated based on completed tasks.
+
+Progress formula:
+
+completed tasks / total tasks × 100
+
+Member contribution is calculated using the number of assigned and completed tasks.
+
+## Tech Stack
+
+- React
+- TypeScript
+- Vite
+- TanStack Router
+- TanStack Query
+- CSS
+- Mock Data
+
+## Project Structure
+
+```text
+src/
+├── components/
+│   └── layout/
+├── features/
+│   ├── auth/
+│   └── projects/
+├── lib/
+│   └── mockStore.ts
+├── router/
+├── utils/
+├── index.css
+└── main.tsx
