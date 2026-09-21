@@ -79,7 +79,13 @@ export async function getProjectByIdApi(
     throw new Error("Project not found")
   }
 
-  return project
+ return {
+  ...project,
+  members: [...project.members],
+  tasks: project.tasks.map(
+    (task) => ({ ...task })
+  ),
+}
 }
 
 export type AddMemberPayload = {
@@ -183,7 +189,6 @@ export async function updateTaskStatusApi(
     throw new Error("Project not found")
   }
 
-
   const task = project.tasks.find(
     (task) =>
       task.id === payload.taskId
@@ -193,8 +198,11 @@ export async function updateTaskStatusApi(
     throw new Error("Task not found")
   }
 
-
   task.status = payload.status
 
-  return project
+  return {
+    ...project,
+    members: [...project.members],
+    tasks: [...project.tasks],
+  }
 }
