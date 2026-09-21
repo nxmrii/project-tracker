@@ -36,6 +36,8 @@ function AddTaskForm({
   const [dueDate, setDueDate] =
     useState("")
 
+    const [error, setError] =
+  useState("")
 
   function handleSubmit(
     e: React.FormEvent
@@ -43,25 +45,44 @@ function AddTaskForm({
 
     e.preventDefault()
 
-    if (
-      !title.trim() ||
-      !assignedTo ||
-      !dueDate
-    ) {
-      return
-    }
+   if (!title.trim()) {
+  setError("Task title is required.")
+  return
+}
 
-    onSubmit({
-      title: title.trim(),
+if (!assignedTo) {
+  setError("Please select a team member.")
+  return
+}
 
-      assignedTo:
-        Number(assignedTo),
+if (!dueDate) {
+  setError("Due date is required.")
+  return
+}
 
-      dueDate,
-    })
+const selectedDate =
+  new Date(dueDate)
+
+const today = new Date()
+
+today.setHours(0, 0, 0, 0)
+
+if (selectedDate < today) {
+  setError(
+    "Due date cannot be in the past."
+  )
+  return
+}
+
+setError("")
+
+onSubmit({
+  title: title.trim(),
+  assignedTo: Number(assignedTo),
+  dueDate,
+})
 
   }
-
 
   return (
     <div className="modal-overlay">
@@ -170,6 +191,11 @@ function AddTaskForm({
 
           </div>
 
+{error && (
+  <div className="form-error">
+    {error}
+  </div>
+)}
 
           <div className="form-actions">
 

@@ -21,24 +21,47 @@ function CreateProjectForm({
   const [name, setName] = useState("")
   const [deadline, setDeadline] = useState("")
 
+  const [error, setError] =
+  useState("")
+
 
   function handleSubmit(
     e: React.FormEvent
   ) {
 
     e.preventDefault()
+if (!name.trim()) {
+  setError("Project name is required.")
+  return
+}
 
-    if (!name.trim() || !deadline) {
-      return
-    }
+if (!deadline) {
+  setError("Deadline is required.")
+  return
+}
 
-    onSubmit({
-      name: name.trim(),
-      deadline,
-    })
+const selectedDate =
+  new Date(deadline)
+
+const today = new Date()
+
+today.setHours(0, 0, 0, 0)
+
+if (selectedDate < today) {
+  setError(
+    "Deadline cannot be in the past."
+  )
+  return
+}
+
+setError("")
+
+onSubmit({
+  name: name.trim(),
+  deadline,
+})
 
   }
-
 
   return (
     <div className="modal-overlay">
@@ -107,7 +130,11 @@ function CreateProjectForm({
 
           </div>
 
-
+{error && (
+  <div className="form-error">
+    {error}
+  </div>
+)}
           <div className="form-actions">
 
             <button

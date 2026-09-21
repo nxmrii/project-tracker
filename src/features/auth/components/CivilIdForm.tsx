@@ -24,9 +24,9 @@ function CivilIdForm({
   ) {
     e.preventDefault()
 
-    if (!civilId.trim()) {
-      return
-    }
+    if (civilId.length !== 8) {
+  return
+}
 
     onSubmit(civilId)
   }
@@ -46,26 +46,30 @@ function CivilIdForm({
         Civil ID
       </label>
 
-      <input
-        type="text"
-        value={civilId}
-        placeholder="Enter Civil ID"
-        onChange={(e) =>
-          setCivilId(
-            e.target.value.replace(/\D/g, "")
-          )
-        }
-      />
+     <input
+  type="text"
+  maxLength={8}
+  value={civilId}
+  placeholder="Enter Civil ID"
 
-      <button
-        type="submit"
-        disabled={loading}
-      >
-        {loading
-          ? "Sending..."
-          : "Send OTP"}
-      </button>
+  onChange={(e) =>
+    setCivilId(
+      e.target.value.replace(/\D/g, "")
+    )
+  }
+/>
 
+     <button
+  type="submit"
+  disabled={
+    loading ||
+    civilId.length !== 8
+  }
+>
+  {loading
+    ? "Sending..."
+    : "Send OTP"}
+</button>
     </form>
   )
 }

@@ -17,6 +17,7 @@ import {
   calculateProgress,
   getMemberContribution,
   isProjectOverdue,
+  isTaskOverdue,
 } from "../../../utils/project.utils"
 
 import { useState } from "react"
@@ -356,6 +357,9 @@ const updateTaskStatus =
                     member.id === task.assignedTo
                 )
 
+                const taskOverdue =
+  isTaskOverdue(task)
+
               return (
                 <div
                   className="task-row"
@@ -417,9 +421,19 @@ const updateTaskStatus =
   </option>
 </select>
 
-                    <span className="task-date">
-                      {task.dueDate}
-                    </span>
+                 <div className="task-deadline">
+
+  <span className="task-date">
+    {task.dueDate}
+  </span>
+
+  {taskOverdue && (
+    <span className="task-overdue">
+      Overdue
+    </span>
+  )}
+
+</div>
 
                   </div>
 

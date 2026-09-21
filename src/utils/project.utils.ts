@@ -54,3 +54,19 @@ export function isProjectOverdue(project: Project): boolean {
 
   return deadline < today
 }
+
+import type { Task } from "../features/projects/project.type"
+
+export function isTaskOverdue(
+  task: Task
+): boolean {
+
+  if (task.status === "done") {
+    return false
+  }
+
+  const today = new Date()
+  const dueDate = new Date(task.dueDate)
+
+  return dueDate < today
+}

@@ -182,3 +182,17 @@
     border-right-color: var(--border);
   }
 }
+
+.form-error {
+  padding: 9px 11px;
+
+  background: #fef3f2;
+
+  border: 1px solid #fecdca;
+
+  border-radius: 7px;
+
+  color: #b42318;
+
+  font-size: 11px;
+}

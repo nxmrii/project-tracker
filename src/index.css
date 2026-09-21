@@ -1275,3 +1275,22 @@ text-decoration: none;
   background: #ecfdf3;
   color: #027a48;
 }
+
+
+.task-deadline {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.task-overdue {
+  padding: 4px 7px;
+
+  background: #fef3f2;
+  color: #b42318;
+
+  border-radius: 20px;
+
+  font-size: 9px;
+  font-weight: 600;
+}
