@@ -78,3 +78,36 @@ export async function getProjectByIdApi(
 
   return project
 }
+
+export type AddMemberPayload = {
+  projectId: number
+  name: string
+  role: string
+}
+
+
+export async function addMemberApi(
+  payload: AddMemberPayload
+): Promise<Project> {
+
+  await delay()
+
+  const project = projects.find(
+    (project) =>
+      project.id === payload.projectId
+  )
+
+  if (!project) {
+    throw new Error("Project not found")
+  }
+
+  const newMember = {
+    id: Date.now(),
+    name: payload.name,
+    role: payload.role,
+  }
+
+  project.members.push(newMember)
+
+  return project
+}

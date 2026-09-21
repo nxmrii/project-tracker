@@ -6,8 +6,10 @@ import {
 import AppShell
   from "../../../components/layout/AppShell"
 
-import { useProject }
-  from "../hooks/useProjects"
+import {
+  useAddMember,
+  useProject,
+} from "../hooks/useProjects"
 
 import {
   calculateProgress,
@@ -15,8 +17,15 @@ import {
   isProjectOverdue,
 } from "../../../utils/project.utils"
 
+import { useState } from "react"
+import AddMemberForm from "../components/AddMemberForm"
+
 
 function ProjectDetailsPage() {
+  const [showMemberForm, setShowMemberForm] =
+  useState(false)
+
+const addMember = useAddMember()
 
   const { projectId } = useParams({
     strict: false,
@@ -203,9 +212,14 @@ function ProjectDetailsPage() {
             </p>
           </div>
 
-          <button className="primary-button">
-            + Add Member
-          </button>
+         <button
+  className="primary-button"
+  onClick={() =>
+    setShowMemberForm(true)
+  }
+>
+  + Add Member
+</button>
 
         </div>
 
@@ -366,6 +380,38 @@ function ProjectDetailsPage() {
 
       </section>
 
+{showMemberForm && (
+
+  <AddMemberForm
+
+    loading={
+      addMember.isPending
+    }
+
+    onCancel={() =>
+      setShowMemberForm(false)
+    }
+
+    onSubmit={(data) => {
+
+      addMember.mutate(
+        {
+          projectId: id,
+          name: data.name,
+          role: data.role,
+        },
+        {
+          onSuccess: () => {
+            setShowMemberForm(false)
+          },
+        }
+      )
+
+    }}
+
+  />
+
+)}
     </AppShell>
   )
 }

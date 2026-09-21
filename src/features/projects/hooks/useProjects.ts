@@ -5,11 +5,14 @@ import {
 } from "@tanstack/react-query"
 
 import {
+  addMemberApi,
   createProjectApi,
   deleteProjectApi,
   getProjectsApi,
   getProjectByIdApi,
 } from "../api/projects.api"
+
+
 
 
 export function useProjects() {
@@ -76,4 +79,20 @@ export function useProject(
     enabled: !Number.isNaN(projectId),
   })
 
+}
+
+
+export function useAddMember() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: addMemberApi,
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({
+queryKey: ["projects", variables.projectId],
+      })
+      queryClient.invalidateQueries({
+        queryKey: ["projects"],
+      })
+  },
+})
 }
