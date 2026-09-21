@@ -6,6 +6,8 @@ import {
 
 import {
   addMemberApi,
+  addTaskApi,
+  updateTaskStatusApi,
   createProjectApi,
   deleteProjectApi,
   getProjectsApi,
@@ -95,4 +97,60 @@ queryKey: ["projects", variables.projectId],
       })
   },
 })
+}
+
+
+export function useAddTask() {
+
+  const queryClient = useQueryClient()
+
+  return useMutation({
+
+    mutationFn: addTaskApi,
+
+    onSuccess: (_, variables) => {
+
+      queryClient.invalidateQueries({
+        queryKey: [
+          "projects",
+          variables.projectId,
+        ],
+      })
+
+      queryClient.invalidateQueries({
+        queryKey: ["projects"],
+      })
+
+    },
+
+  })
+
+}
+
+
+export function useUpdateTaskStatus() {
+
+  const queryClient = useQueryClient()
+
+  return useMutation({
+
+    mutationFn: updateTaskStatusApi,
+
+    onSuccess: (_, variables) => {
+
+      queryClient.invalidateQueries({
+        queryKey: [
+          "projects",
+          variables.projectId,
+        ],
+      })
+
+      queryClient.invalidateQueries({
+        queryKey: ["projects"],
+      })
+
+    },
+
+  })
+
 }

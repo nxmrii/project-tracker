@@ -1243,3 +1243,35 @@ text-decoration: none;
   }
 
 }
+
+.task-status-select {
+  padding: 6px 9px;
+
+  border: none;
+
+  border-radius: 20px;
+
+  outline: none;
+
+  font-size: 10px;
+
+  cursor: pointer;
+}
+
+
+.task-status-select.todo {
+  background: #f2f4f7;
+  color: #475467;
+}
+
+
+.task-status-select.in-progress {
+  background: #fffaeb;
+  color: #b54708;
+}
+
+
+.task-status-select.done {
+  background: #ecfdf3;
+  color: #027a48;
+}

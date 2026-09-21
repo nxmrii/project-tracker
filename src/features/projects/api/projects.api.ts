@@ -5,7 +5,10 @@ import {
 
 import type {
   Project,
+  TaskStatus,
 } from "../project.type"
+
+
 
 
 export async function getProjectsApi(): Promise<Project[]> {
@@ -86,6 +89,8 @@ export type AddMemberPayload = {
 }
 
 
+
+//add member
 export async function addMemberApi(
   payload: AddMemberPayload
 ): Promise<Project> {
@@ -108,6 +113,88 @@ export async function addMemberApi(
   }
 
   project.members.push(newMember)
+
+  return project
+}
+
+
+//add task
+export type AddTaskPayload = {
+  projectId: number
+  title: string
+  assignedTo: number
+  dueDate: string
+}
+
+
+export async function addTaskApi(
+  payload: AddTaskPayload
+): Promise<Project> {
+
+  await delay()
+
+  const project = projects.find(
+    (project) =>
+      project.id === payload.projectId
+  )
+
+  if (!project) {
+    throw new Error("Project not found")
+  }
+
+  const newTask = {
+    id: Date.now(),
+
+    title: payload.title,
+
+    assignedTo: payload.assignedTo,
+
+    status: "todo" as TaskStatus,
+
+    dueDate: payload.dueDate,
+  }
+
+  project.tasks.push(newTask)
+
+  return project
+}
+
+
+//update task status
+export type UpdateTaskStatusPayload = {
+  projectId: number
+  taskId: number
+  status: TaskStatus
+}
+
+
+export async function updateTaskStatusApi(
+  payload: UpdateTaskStatusPayload
+): Promise<Project> {
+
+  await delay()
+
+  const project = projects.find(
+    (project) =>
+      project.id === payload.projectId
+  )
+
+  if (!project) {
+    throw new Error("Project not found")
+  }
+
+
+  const task = project.tasks.find(
+    (task) =>
+      task.id === payload.taskId
+  )
+
+  if (!task) {
+    throw new Error("Task not found")
+  }
+
+
+  task.status = payload.status
 
   return project
 }

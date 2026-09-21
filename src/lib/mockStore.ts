@@ -46,7 +46,7 @@ export let projects: Project[] = [ //for create, delete, add, edit
         id: 2,
         title: "Build Dashboard",
         assignedTo: 1,
-        status: "in-progress",
+        status: "done",
         dueDate: "2026-09-28",
       },
 

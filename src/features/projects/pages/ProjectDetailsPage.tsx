@@ -8,6 +8,8 @@ import AppShell
 
 import {
   useAddMember,
+  useAddTask,
+  useUpdateTaskStatus,
   useProject,
 } from "../hooks/useProjects"
 
@@ -19,6 +21,7 @@ import {
 
 import { useState } from "react"
 import AddMemberForm from "../components/AddMemberForm"
+import AddTaskForm from "../components/AddTaskForm"
 
 
 function ProjectDetailsPage() {
@@ -30,6 +33,16 @@ const addMember = useAddMember()
   const { projectId } = useParams({
     strict: false,
   })
+
+  const [showTaskForm, setShowTaskForm] =
+  useState(false)
+
+const addTask = useAddTask()
+
+const updateTaskStatus =
+  useUpdateTaskStatus()
+
+  
 
   const id = Number(projectId)
 
@@ -310,9 +323,17 @@ const addMember = useAddMember()
             </p>
           </div>
 
-          <button className="primary-button">
-            + Add Task
-          </button>
+          <button
+  className="primary-button"
+  onClick={() =>
+    setShowTaskForm(true)
+  }
+  disabled={
+    project.members.length === 0
+  }
+>
+  + Add Task
+</button>
 
         </div>
 
@@ -358,11 +379,43 @@ const addMember = useAddMember()
 
                   <div className="task-meta">
 
-                    <span
-                      className={`task-status ${task.status}`}
-                    >
-                      {task.status}
-                    </span>
+                    <select
+  className={`task-status-select ${task.status}`}
+
+  value={task.status}
+
+  disabled={
+    updateTaskStatus.isPending
+  }
+
+  onChange={(e) => {
+
+    updateTaskStatus.mutate({
+      projectId: id,
+
+      taskId: task.id,
+
+      status:
+        e.target.value as
+          "todo" |
+          "in-progress" |
+          "done",
+    })
+
+  }}
+>
+  <option value="todo">
+    Todo
+  </option>
+
+  <option value="in-progress">
+    In Progress
+  </option>
+
+  <option value="done">
+    Done
+  </option>
+</select>
 
                     <span className="task-date">
                       {task.dueDate}
@@ -403,6 +456,49 @@ const addMember = useAddMember()
         {
           onSuccess: () => {
             setShowMemberForm(false)
+          },
+        }
+      )
+
+    }}
+
+  />
+
+)}
+
+{showTaskForm && (
+
+  <AddTaskForm
+
+    members={
+      project.members
+    }
+
+    loading={
+      addTask.isPending
+    }
+
+    onCancel={() =>
+      setShowTaskForm(false)
+    }
+
+    onSubmit={(data) => {
+
+      addTask.mutate(
+        {
+          projectId: id,
+
+          title: data.title,
+
+          assignedTo:
+            data.assignedTo,
+
+          dueDate:
+            data.dueDate,
+        },
+        {
+          onSuccess: () => {
+            setShowTaskForm(false)
           },
         }
       )
